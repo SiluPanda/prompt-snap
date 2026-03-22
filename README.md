@@ -3,6 +3,7 @@
 Snapshot testing for LLM outputs with configurable fuzzy matching strategies.
 
 [![npm version](https://img.shields.io/npm/v/prompt-snap.svg)](https://www.npmjs.com/package/prompt-snap)
+[![npm downloads](https://img.shields.io/npm/dt/prompt-snap.svg)](https://www.npmjs.com/package/prompt-snap)
 [![license](https://img.shields.io/npm/l/prompt-snap.svg)](https://github.com/SiluPanda/prompt-snap/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/prompt-snap.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue.svg)](https://www.typescriptlang.org/)
