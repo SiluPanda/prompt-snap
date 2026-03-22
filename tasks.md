@@ -6,7 +6,7 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 1: Project Scaffolding and Configuration
 
-- [ ] **Install dev dependencies** — Add `typescript`, `vitest`, and `eslint` as devDependencies in `package.json`. Verify `npm install` succeeds. | Status: not_done
+- [x] **Install dev dependencies** — Add `typescript`, `vitest`, and `eslint` as devDependencies in `package.json`. Verify `npm install` succeeds. | Status: done
 - [ ] **Add bin entry for CLI** — Add `"bin": { "prompt-snap": "dist/cli.js" }` to `package.json` so the CLI is available via `npx prompt-snap`. | Status: not_done
 - [ ] **Configure subpath exports for adapters** — Add `"exports"` field to `package.json` with subpath `"./adapters/openai"` pointing to `dist/adapters/openai.js` and a main entry `"."` pointing to `dist/index.js`. | Status: not_done
 - [ ] **Add optional peer dependency for openai** — Add `"peerDependencies": { "openai": "^4.0.0" }` and `"peerDependenciesMeta": { "openai": { "optional": true } }` to `package.json`. | Status: not_done
@@ -18,10 +18,10 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 - [ ] **Define MatchStrategyId type** — Union type of the eight strategy string literals: `'exact' | 'semantic' | 'structural' | 'keyField' | 'contains' | 'regex' | 'jaccard' | 'custom'`. | Status: not_done
 - [ ] **Define MatchStrategyConfig type** — Union of `MatchStrategyId` or object with `strategy: MatchStrategyId` and arbitrary additional keys. | Status: not_done
-- [ ] **Define EmbedFn type** — `(text: string) => Promise<number[]>` function signature for embedding providers. | Status: not_done
-- [ ] **Define CustomMatcherFn type** — `(actual: unknown, expected: unknown) => CustomMatchResult | Promise<CustomMatchResult>`. | Status: not_done
+- [x] **Define EmbedFn type** — `(text: string) => Promise<number[]>` function signature for embedding providers. | Status: done
+- [x] **Define CustomMatcherFn type** — `(actual: unknown, expected: unknown) => CustomMatchResult | Promise<CustomMatchResult>`. | Status: done
 - [ ] **Define CustomMatchResult interface** — Fields: `pass: boolean`, `score?: number`, `message?: string`. | Status: not_done
-- [ ] **Define MatchResult interface** — Fields: `pass`, `score`, `strategy`, `details: MatchDetails`, `diff?: string`, `durationMs`. | Status: not_done
+- [x] **Define MatchResult interface** — Fields: `pass`, `score`, `strategy`, `details: MatchDetails`, `diff?: string`, `durationMs`. | Status: done
 - [ ] **Define MatchDetails discriminated union** — Union of all eight strategy-specific detail interfaces: `ExactMatchDetails`, `SemanticMatchDetails`, `StructuralMatchDetails`, `KeyFieldMatchDetails`, `ContainsMatchDetails`, `RegexMatchDetails`, `JaccardMatchDetails`, `CustomMatchDetails`. | Status: not_done
 - [ ] **Define ExactMatchDetails interface** — Fields: `strategy: 'exact'`, `identical: boolean`. | Status: not_done
 - [ ] **Define SemanticMatchDetails interface** — Fields: `strategy: 'semantic'`, `cosineSimilarity`, `threshold`, `embeddingDimension`. | Status: not_done
@@ -31,16 +31,16 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 - [ ] **Define RegexMatchDetails interface** — Fields: `strategy: 'regex'`, `pattern`, `flags`, `matched`. | Status: not_done
 - [ ] **Define JaccardMatchDetails interface** — Fields: `strategy: 'jaccard'`, `similarity`, `threshold`, `intersectionSize`, `unionSize`, `actualTokenCount`, `expectedTokenCount`. | Status: not_done
 - [ ] **Define CustomMatchDetails interface** — Fields: `strategy: 'custom'`, `message?: string`. | Status: not_done
-- [ ] **Define FieldMatchSchema type** — `Record<string, FieldMatchRule>`. | Status: not_done
+- [x] **Define FieldMatchSchema type** — `Record<string, FieldMatchRule>`. | Status: done
 - [ ] **Define FieldMatchRule type** — Union of `MatchStrategyId` (string shorthand) and `FieldMatchConfig` (full object). | Status: not_done
-- [ ] **Define FieldMatchConfig interface** — Fields: `strategy`, `threshold?`, `embedFn?`, `matcher?`, `arrayMode?`, `caseSensitive?`, `optional?`, plus index signature for strategy-specific options. | Status: not_done
-- [ ] **Define SnapshotEntry interface** — Fields: `id`, `value: unknown`, `strategy`, `threshold?`, `schema?`, `updatedAt`. | Status: not_done
-- [ ] **Define SnapshotFile interface** — `__meta` object (version, createdBy, updatedAt) plus snapshot entries keyed by ID. | Status: not_done
+- [x] **Define FieldMatchConfig interface** — Fields: `strategy`, `threshold?`, `embedFn?`, `matcher?`, `arrayMode?`, `caseSensitive?`, `optional?`, plus index signature for strategy-specific options. | Status: done
+- [x] **Define SnapshotEntry interface** — Fields: `id`, `value: unknown`, `strategy`, `threshold?`, `schema?`, `updatedAt`. | Status: done
+- [x] **Define SnapshotFile interface** — `__meta` object (version, createdBy, updatedAt) plus snapshot entries keyed by ID. | Status: done
 - [ ] **Define PromptSnapMatcherOptions interface** — All per-test options: `strategy?`, `threshold?`, `label?`, `schema?`, `embedFn?`, and all strategy-specific options. | Status: not_done
-- [ ] **Define MatchSnapshotOptions interface** — Extends `PromptSnapMatcherOptions` with `snapshotDir?`, `snapshotFile?`, `update?`. | Status: not_done
+- [x] **Define MatchSnapshotOptions interface** — Extends `PromptSnapMatcherOptions` with `snapshotDir?`, `snapshotFile?`, `update?`. | Status: done
 - [ ] **Define UpdateSnapshotOptions interface** — Fields: `snapshotDir?`, `snapshotFile?`, `strategy?`, `threshold?`, `schema?`. | Status: not_done
-- [ ] **Define SnapshotterConfig interface** — Fields: `strategy?`, `threshold?`, `embedFn?`, `snapshotDir?`, `update?`, `defaultFieldStrategy?`. | Status: not_done
-- [ ] **Define Snapshotter interface** — Methods: `match()`, `update()`, `listSnapshots()`, `cleanStale()`. | Status: not_done
+- [x] **Define SnapshotterConfig interface** — Fields: `strategy?`, `threshold?`, `embedFn?`, `snapshotDir?`, `update?`, `defaultFieldStrategy?`. | Status: done
+- [x] **Define Snapshotter interface** — Methods: `match()`, `update()`, `listSnapshots()`, `cleanStale()`. | Status: done
 
 ---
 
@@ -83,32 +83,32 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 4a: Exact Strategy (`src/strategies/exact.ts`)
 
-- [ ] **Implement exact matching function** — Compare with `===` for strings. Use deepEqual for objects/arrays. Return `MatchResult` with score 1.0 (identical) or 0.0 (different) and `ExactMatchDetails`. | Status: not_done
-- [ ] **Handle type mismatches** — If one value is a string and the other is an object, fail with score 0.0. | Status: not_done
-- [ ] **Write tests for exact strategy** — Identical strings pass (1.0), different strings fail (0.0), identical objects pass, objects with different key order pass, objects with different values fail, type mismatch fails, null/undefined handling. | Status: not_done
+- [x] **Implement exact matching function** — Compare with `===` for strings. Use deepEqual for objects/arrays. Return `MatchResult` with score 1.0 (identical) or 0.0 (different) and `ExactMatchDetails`. | Status: done
+- [x] **Handle type mismatches** — If one value is a string and the other is an object, fail with score 0.0. | Status: done
+- [x] **Write tests for exact strategy** — Identical strings pass (1.0), different strings fail (0.0), identical objects pass, objects with different key order pass, objects with different values fail, type mismatch fails, null/undefined handling. | Status: done
 
 ### 4b: Contains Strategy (`src/strategies/contains.ts`)
 
-- [ ] **Implement contains matching function** — Accept optional `substrings` array; if not provided, split snapshot value into sentences using `splitSentences`. Check each substring against actual output. Support `caseSensitive` option (default false). Compute score as `matchedCount / totalCount`. Pass if `score >= minMatchRatio`. Return `ContainsMatchDetails` with matched/missing substring lists. | Status: not_done
-- [ ] **Write tests for contains strategy** — All substrings present (score 1.0), some missing (partial score), case insensitivity, `minMatchRatio: 0.8` with 4/5 found (pass), empty substrings list (vacuously true), empty actual (fail if substrings expected). | Status: not_done
+- [x] **Implement contains matching function** — Accept optional `substrings` array; if not provided, split snapshot value into sentences using `splitSentences`. Check each substring against actual output. Support `caseSensitive` option (default false). Compute score as `matchedCount / totalCount`. Pass if `score >= minMatchRatio`. Return `ContainsMatchDetails` with matched/missing substring lists. | Status: done
+- [x] **Write tests for contains strategy** — All substrings present (score 1.0), some missing (partial score), case insensitivity, `minMatchRatio: 0.8` with 4/5 found (pass), empty substrings list (vacuously true), empty actual (fail if substrings expected). | Status: done
 
 ### 4c: Regex Strategy (`src/strategies/regex.ts`)
 
-- [ ] **Implement regex matching function** — Accept optional `pattern` (RegExp or string) and `flags`. If no pattern provided, use stored snapshot value as regex string. If `fullMatch`, wrap in `^...$`. Compile regex and test against actual. Return `RegexMatchDetails`. Handle invalid regex with error details. | Status: not_done
-- [ ] **Write tests for regex strategy** — Matching pattern (pass), non-matching (fail), `fullMatch: true` enforcement, invalid regex (fail with error), case-insensitive flag, pattern as string vs RegExp, snapshot-derived pattern. | Status: not_done
+- [x] **Implement regex matching function** — Accept optional `pattern` (RegExp or string) and `flags`. If no pattern provided, use stored snapshot value as regex string. If `fullMatch`, wrap in `^...$`. Compile regex and test against actual. Return `RegexMatchDetails`. Handle invalid regex with error details. | Status: done
+- [x] **Write tests for regex strategy** — Matching pattern (pass), non-matching (fail), `fullMatch: true` enforcement, invalid regex (fail with error), case-insensitive flag, pattern as string vs RegExp, snapshot-derived pattern. | Status: done
 
 ### 4d: Jaccard Strategy (`src/strategies/jaccard.ts`)
 
-- [ ] **Implement Jaccard matching function** — Tokenize both texts, optionally remove stopwords and apply stemming, compute word set intersection and union, return `score = |intersection| / |union|`. Pass if `score >= threshold`. Return `JaccardMatchDetails`. | Status: not_done
+- [x] **Implement Jaccard matching function** — Tokenize both texts, optionally remove stopwords and apply stemming, compute word set intersection and union, return `score = |intersection| / |union|`. Pass if `score >= threshold`. Return `JaccardMatchDetails`. | Status: done
 - [ ] **Implement optional Porter stemming** — Basic Porter stemming algorithm for English words when `stemWords: true`. | Status: not_done
-- [ ] **Write tests for Jaccard strategy** — Identical texts (1.0), completely different texts (0.0), partial overlap (proportional score), stopword removal effect, case sensitivity, empty texts (0.0), threshold boundary. | Status: not_done
+- [x] **Write tests for Jaccard strategy** — Identical texts (1.0), completely different texts (0.0), partial overlap (proportional score), stopword removal effect, case sensitivity, empty texts (0.0), threshold boundary. | Status: done
 
 ### 4e: Structural Strategy (`src/strategies/structural.ts`)
 
-- [ ] **Implement structural matching function** — Recursively compare two JSON values for same shape: same keys, same types, same array lengths. Ignore actual values. Support `allowExtraKeys`, `allowMissingKeys`, `checkArrayLength` options. Compute score as `matchedFields / totalFields`. Collect structural diff details (missing keys, extra keys, type mismatches, array length mismatches with paths). | Status: not_done
+- [x] **Implement structural matching function** — Recursively compare two JSON values for same shape: same keys, same types, same array lengths. Ignore actual values. Support `allowExtraKeys`, `allowMissingKeys`, `checkArrayLength` options. Compute score as `matchedFields / totalFields`. Collect structural diff details (missing keys, extra keys, type mismatches, array length mismatches with paths). | Status: done
 - [ ] **Handle JSON parsing** — If values are strings, attempt `JSON.parse`. If parsing fails, fail with score 0.0. | Status: not_done
-- [ ] **Handle arrays** — Check element types using first element as type exemplar. When `checkArrayLength: true`, verify lengths match. | Status: not_done
-- [ ] **Write tests for structural strategy** — Identical structures pass (1.0), same keys different values pass, missing key fail, extra key fail/pass depending on config, type mismatch fail, nested objects, arrays (same length, different length, different element types), `allowMissingKeys`, `checkArrayLength: false`. | Status: not_done
+- [x] **Handle arrays** — Check element types using first element as type exemplar. When `checkArrayLength: true`, verify lengths match. | Status: done
+- [x] **Write tests for structural strategy** — Identical structures pass (1.0), same keys different values pass, missing key fail, extra key fail/pass depending on config, type mismatch fail, nested objects, arrays (same length, different length, different element types), `allowMissingKeys`, `checkArrayLength: false`. | Status: done
 
 ### 4f: Semantic Strategy (`src/strategies/semantic.ts`)
 
@@ -118,22 +118,22 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 4g: Custom Strategy (`src/strategies/custom.ts`)
 
-- [ ] **Implement custom matching function** — Call user-provided `matcher(actual, expected)`, await if promise, extract `pass`, `score` (default 1.0 if pass, 0.0 if fail), and `message`. Return `CustomMatchDetails`. Catch matcher errors and fail with error details. | Status: not_done
+- [x] **Implement custom matching function** — Call user-provided `matcher(actual, expected)`, await if promise, extract `pass`, `score` (default 1.0 if pass, 0.0 if fail), and `message`. Return `CustomMatchDetails`. Catch matcher errors and fail with error details. | Status: done
 - [ ] **Write tests for custom strategy** — Matcher returns pass (pass, score from result), matcher returns fail (fail), async matcher (awaited correctly), matcher throws (fail with error), score defaults (1.0 for pass, 0.0 for fail when not specified). | Status: not_done
 
 ### 4h: Key-Field Strategy (`src/strategies/key-field.ts`)
 
-- [ ] **Implement keyField matching function** — Parse both values as JSON. For each field in the schema, resolve the field path in both actual and expected using dot-notation resolver. Apply the field-specific strategy. Collect per-field `MatchResult` objects. Handle `ignoreExtraFields` option. Compute overall score as mean of per-field scores. Overall pass requires all fields to pass individually. Return `KeyFieldMatchDetails`. | Status: not_done
-- [ ] **Implement strategy dispatch** — Resolve string shorthand (`'exact'`) to strategy with default config. Resolve object config (`{ strategy: 'semantic', threshold: 0.85 }`) to strategy with overridden options. | Status: not_done
+- [x] **Implement keyField matching function** — Parse both values as JSON. For each field in the schema, resolve the field path in both actual and expected using dot-notation resolver. Apply the field-specific strategy. Collect per-field `MatchResult` objects. Handle `ignoreExtraFields` option. Compute overall score as mean of per-field scores. Overall pass requires all fields to pass individually. Return `KeyFieldMatchDetails`. | Status: done
+- [x] **Implement strategy dispatch** — Resolve string shorthand (`'exact'`) to strategy with default config. Resolve object config (`{ strategy: 'semantic', threshold: 0.85 }`) to strategy with overridden options. | Status: done
 - [ ] **Implement defaultStrategy for unlisted fields** — Fields in expected but not in schema use `defaultStrategy` (default: `'exact'`). | Status: not_done
 - [ ] **Implement wildcard array path matching** — For paths like `items.*.name`, iterate over all array elements and apply the strategy to each element's field. | Status: not_done
 - [ ] **Implement array matching modes** — Support `element-wise` (compare by index), `any-order` (best match pairing), and `length-only` (compare lengths only) modes per field. | Status: not_done
-- [ ] **Handle optional fields** — Fields marked `optional: true` do not fail when absent from actual output. Absent optional fields are excluded from score calculation. | Status: not_done
-- [ ] **Write tests for keyField strategy** — All fields pass (overall pass), one field fails (overall fail, per-field results), nested field paths (dot-notation), wildcard array paths, optional field absent (pass), missing required field (fail), extra fields with `ignoreExtraFields: true` (ignored) vs false (fail), mixed strategies across fields, defaultStrategy fallback. | Status: not_done
+- [x] **Handle optional fields** — Fields marked `optional: true` do not fail when absent from actual output. Absent optional fields are excluded from score calculation. | Status: done
+- [x] **Write tests for keyField strategy** — All fields pass (overall pass), one field fails (overall fail, per-field results), nested field paths (dot-notation), wildcard array paths, optional field absent (pass), missing required field (fail), extra fields with `ignoreExtraFields: true` (ignored) vs false (fail), mixed strategies across fields, defaultStrategy fallback. | Status: done
 
 ### 4i: Strategy Dispatcher
 
-- [ ] **Implement strategy dispatcher function** — Given a `MatchStrategyId` and options, invoke the correct strategy function and return `MatchResult`. Used by `matchSnapshot`, keyField strategy, and the matcher. Include timing measurement (`durationMs`). | Status: not_done
+- [x] **Implement strategy dispatcher function** — Given a `MatchStrategyId` and options, invoke the correct strategy function and return `MatchResult`. Used by `matchSnapshot`, keyField strategy, and the matcher. Include timing measurement (`durationMs`). | Status: done
 - [ ] **Write tests for strategy dispatcher** — Dispatch to each of the eight strategies, verify correct strategy function is called, verify unknown strategy ID throws descriptive error. | Status: not_done
 
 ---
@@ -142,17 +142,17 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 5a: File Format (`src/snapshot-store/file-format.ts`)
 
-- [ ] **Implement serializeSnapshotFile function** — Convert a `SnapshotFile` object to a formatted JSON string (2-space indent) for human-readable storage. | Status: not_done
-- [ ] **Implement deserializeSnapshotFile function** — Parse JSON string to `SnapshotFile` object. Validate `__meta.version`. Handle invalid JSON with descriptive error messages. | Status: not_done
+- [x] **Implement serializeSnapshotFile function** — Convert a `SnapshotFile` object to a formatted JSON string (2-space indent) for human-readable storage. | Status: done
+- [x] **Implement deserializeSnapshotFile function** — Parse JSON string to `SnapshotFile` object. Validate `__meta.version`. Handle invalid JSON with descriptive error messages. | Status: done
 - [ ] **Write tests for file format** — Round-trip serialization/deserialization, invalid JSON error, missing `__meta`, version mismatch handling. | Status: not_done
 
 ### 5b: Store (`src/snapshot-store/store.ts`)
 
-- [ ] **Implement readSnapshotFile function** — Read a snapshot JSON file from disk. Return parsed `SnapshotFile`. If file does not exist, return null (indicating first run). Use `fs.readFileSync`. | Status: not_done
-- [ ] **Implement writeSnapshotFile function** — Write `SnapshotFile` to disk as formatted JSON. Use atomic write (write to temp file, then rename) to prevent corruption. Create `.prompt-snap` directory if it does not exist using `fs.mkdirSync({ recursive: true })`. | Status: not_done
-- [ ] **Implement getSnapshotEntry function** — Look up a snapshot by ID from a `SnapshotFile`. Return `SnapshotEntry` or null. | Status: not_done
-- [ ] **Implement setSnapshotEntry function** — Add or update a snapshot entry in a `SnapshotFile`. Set `updatedAt` to current timestamp. Update `__meta.updatedAt`. | Status: not_done
-- [ ] **Implement resolveSnapshotPath function** — Given test file path and optional `snapshotDir`, compute the snapshot file path. Default: `<testFileDir>/.prompt-snap/<testFileName>.snap.json`. | Status: not_done
+- [x] **Implement readSnapshotFile function** — Read a snapshot JSON file from disk. Return parsed `SnapshotFile`. If file does not exist, return null (indicating first run). Use `fs.readFileSync`. | Status: done
+- [x] **Implement writeSnapshotFile function** — Write `SnapshotFile` to disk as formatted JSON. Use atomic write (write to temp file, then rename) to prevent corruption. Create `.prompt-snap` directory if it does not exist using `fs.mkdirSync({ recursive: true })`. | Status: done
+- [x] **Implement getSnapshotEntry function** — Look up a snapshot by ID from a `SnapshotFile`. Return `SnapshotEntry` or null. | Status: done
+- [x] **Implement setSnapshotEntry function** — Add or update a snapshot entry in a `SnapshotFile`. Set `updatedAt` to current timestamp. Update `__meta.updatedAt`. | Status: done
+- [x] **Implement resolveSnapshotPath function** — Given test file path and optional `snapshotDir`, compute the snapshot file path. Default: `<testFileDir>/.prompt-snap/<testFileName>.snap.json`. | Status: done
 - [ ] **Write tests for store** — Read existing file, read non-existent file (returns null), write and read back, atomic write integrity, directory creation, getSnapshotEntry found/not-found, setSnapshotEntry add new/update existing. | Status: not_done
 
 ### 5c: Stale Tracker (`src/snapshot-store/stale-tracker.ts`)
@@ -166,12 +166,12 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 6: Core Snapshot Logic (`src/snapshot.ts`)
 
-- [ ] **Implement matchSnapshot function** — Load snapshot from file (via store). If no snapshot exists, create it (first run: store actual value, return pass with score 1.0, log creation message). If snapshot exists and update mode is active, overwrite with actual value and return pass. If snapshot exists and not in update mode, compare actual against stored using configured strategy via dispatcher. Return `MatchResult`. Record snapshot access for stale tracking. | Status: not_done
-- [ ] **Implement updateSnapshot function** — Programmatically update a specific snapshot by ID. Write new value, strategy, and threshold to snapshot file. Set `updatedAt`. | Status: not_done
+- [x] **Implement matchSnapshot function** — Load snapshot from file (via store). If no snapshot exists, create it (first run: store actual value, return pass with score 1.0, log creation message). If snapshot exists and update mode is active, overwrite with actual value and return pass. If snapshot exists and not in update mode, compare actual against stored using configured strategy via dispatcher. Return `MatchResult`. Record snapshot access for stale tracking. | Status: done
+- [x] **Implement updateSnapshot function** — Programmatically update a specific snapshot by ID. Write new value, strategy, and threshold to snapshot file. Set `updatedAt`. | Status: done
 - [ ] **Implement update mode detection** — Check `PROMPT_SNAP_UPDATE` env var, `process.argv` for `--updateSnapshot` / `-u` (Jest) and `--update` (Vitest), and programmatic `update: true` config. Precedence: env var > argv > config > default (off). | Status: not_done
 - [ ] **Implement selective update filtering** — Support `PROMPT_SNAP_UPDATE_FILTER` env var: comma-separated substrings, only update snapshots whose IDs contain one of the substrings. | Status: not_done
 - [ ] **Handle snapshot value serialization** — Strings stored as-is. Objects stored as JSON objects. Detect and reject non-serializable values (functions, circular references, binary data) with descriptive errors. | Status: not_done
-- [ ] **Write tests for matchSnapshot** — First run creates snapshot and passes, second run with matching output passes, second run with non-matching output fails with diff, update mode overwrites and passes, selective update filtering, non-serializable value error. | Status: not_done
+- [x] **Write tests for matchSnapshot** — First run creates snapshot and passes, second run with matching output passes, second run with non-matching output fails with diff, update mode overwrites and passes, selective update filtering, non-serializable value error. | Status: done
 
 ---
 
@@ -191,12 +191,12 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 7c: Factory (`src/snapshotter.ts`)
 
-- [ ] **Implement createSnapshotter function** — Accept `SnapshotterConfig`. Return `Snapshotter` object with `match()`, `update()`, `listSnapshots()`, `cleanStale()` methods. Each method merges call-level options with instance-level config. | Status: not_done
-- [ ] **Implement Snapshotter.match method** — Delegate to `matchSnapshot` with instance config merged. | Status: not_done
-- [ ] **Implement Snapshotter.update method** — Delegate to `updateSnapshot` with instance config. | Status: not_done
-- [ ] **Implement Snapshotter.listSnapshots method** — Read snapshot file, return array of `SnapshotEntry` objects. | Status: not_done
+- [x] **Implement createSnapshotter function** — Accept `SnapshotterConfig`. Return `Snapshotter` object with `match()`, `update()`, `listSnapshots()`, `cleanStale()` methods. Each method merges call-level options with instance-level config. | Status: done
+- [x] **Implement Snapshotter.match method** — Delegate to `matchSnapshot` with instance config merged. | Status: done
+- [x] **Implement Snapshotter.update method** — Delegate to `updateSnapshot` with instance config. | Status: done
+- [x] **Implement Snapshotter.listSnapshots method** — Read snapshot file, return array of `SnapshotEntry` objects. | Status: done
 - [ ] **Implement Snapshotter.cleanStale method** — Given a set of accessed IDs, remove stale snapshots from file, return count removed. | Status: not_done
-- [ ] **Write tests for createSnapshotter** — Instance creation with config, match delegates correctly, update delegates correctly, listSnapshots returns entries, cleanStale removes stale entries. | Status: not_done
+- [x] **Write tests for createSnapshotter** — Instance creation with config, match delegates correctly, update delegates correctly, listSnapshots returns entries, cleanStale removes stale entries. | Status: done
 
 ---
 
@@ -243,8 +243,8 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 11: Public API Exports (`src/index.ts`)
 
-- [ ] **Export core functions** — `matchSnapshot`, `updateSnapshot`, `createSnapshotter`, `setupPromptSnap` from their respective modules. | Status: not_done
-- [ ] **Export all public types** — All interfaces and type aliases from `types.ts`: `MatchResult`, `MatchDetails`, `MatchStrategyId`, `MatchStrategyConfig`, `FieldMatchSchema`, `FieldMatchRule`, `FieldMatchConfig`, `SnapshotEntry`, `SnapshotFile`, `SnapshotterConfig`, `Snapshotter`, `PromptSnapMatcherOptions`, `MatchSnapshotOptions`, `UpdateSnapshotOptions`, `EmbedFn`, `CustomMatcherFn`, `CustomMatchResult`, and all `*MatchDetails` interfaces. | Status: not_done
+- [x] **Export core functions** — `matchSnapshot`, `updateSnapshot`, `createSnapshotter`, `setupPromptSnap` from their respective modules. | Status: done
+- [x] **Export all public types** — All interfaces and type aliases from `types.ts`: `MatchResult`, `MatchDetails`, `MatchStrategyId`, `MatchStrategyConfig`, `FieldMatchSchema`, `FieldMatchRule`, `FieldMatchConfig`, `SnapshotEntry`, `SnapshotFile`, `SnapshotterConfig`, `Snapshotter`, `PromptSnapMatcherOptions`, `MatchSnapshotOptions`, `UpdateSnapshotOptions`, `EmbedFn`, `CustomMatcherFn`, `CustomMatchResult`, and all `*MatchDetails` interfaces. | Status: done
 - [ ] **Export formatDiff** — `formatDiff` from `diff/formatter.ts`. | Status: not_done
 
 ---
