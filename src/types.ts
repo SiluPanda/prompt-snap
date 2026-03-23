@@ -1,6 +1,5 @@
 export type MatchStrategyId = 'exact' | 'jaccard' | 'structural' | 'contains' | 'regex' | 'keyField' | 'custom'
 
-export type EmbedFn = (text: string) => Promise<number[]>
 export type CustomMatcherFn = (
   actual: unknown,
   expected: unknown
@@ -21,7 +20,6 @@ export interface FieldMatchConfig {
   strategy: MatchStrategyId
   threshold?: number
   matcher?: CustomMatcherFn
-  caseSensitive?: boolean
   optional?: boolean
 }
 
@@ -45,7 +43,7 @@ export interface MatchSnapshotOptions {
   strategy?: MatchStrategyId
   threshold?: number
   schema?: FieldMatchSchema
-  embedFn?: EmbedFn
+  matcher?: CustomMatcherFn
   snapshotDir?: string
   snapshotFile?: string
   update?: boolean

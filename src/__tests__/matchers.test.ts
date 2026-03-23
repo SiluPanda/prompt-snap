@@ -237,3 +237,26 @@ describe('matchKeyField', () => {
     expect(r.pass).toBe(true)
   })
 })
+
+describe('regression: custom strategy via match()', () => {
+  it('custom strategy works when matcher function is provided', async () => {
+    const { match } = await import('../matchers/dispatch.js')
+    const result = await match('hello', 'hello', 'custom', {
+      matcher: async (actual, expected) => ({
+        pass: actual === expected,
+        score: actual === expected ? 1.0 : 0.0,
+        message: 'custom check',
+      }),
+    })
+    expect(result.pass).toBe(true)
+    expect(result.score).toBe(1.0)
+    expect(result.strategy).toBe('custom')
+  })
+
+  it('custom strategy throws when matcher not provided', async () => {
+    const { match } = await import('../matchers/dispatch.js')
+    await expect(match('a', 'b', 'custom', {})).rejects.toThrow(
+      'matcher function is required',
+    )
+  })
+})

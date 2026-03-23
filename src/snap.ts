@@ -50,6 +50,7 @@ export async function matchSnapshot(
   const result = await match(actual, existing.value, strategy, {
     threshold: options?.threshold ?? existing.threshold,
     schema: options?.schema ?? existing.schema,
+    matcher: options?.matcher,
   })
 
   return result
@@ -114,6 +115,7 @@ export function createSnapshotter(config?: SnapshotterConfig): Snapshotter {
       return match(actual, existing.value, strategy, {
         threshold: mergedOptions.threshold ?? existing.threshold,
         schema: mergedOptions.schema ?? existing.schema,
+        matcher: options?.matcher,
       })
     },
 
