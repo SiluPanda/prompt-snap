@@ -3,7 +3,6 @@ export { matchSnapshot, updateSnapshot, createSnapshotter } from './snap.js'
 export { match } from './matchers/dispatch.js'
 export type {
   MatchStrategyId,
-  EmbedFn,
   CustomMatcherFn,
   MatchResult,
   FieldMatchConfig,
